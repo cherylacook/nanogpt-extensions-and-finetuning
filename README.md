@@ -2,8 +2,8 @@
 
 ## Objective:
 Extend the NanoGPT codebase to 
-- Visualise token probabilities and sampling decisions during text generation at different temperatures.
-- Compute probabilities of entire generated sequences.
+- Visualise token probabilities and sampling decisions during text generation.
+- Compute probabilities for entire generated sequences.
 - Support optional fixed responses.
 
 Additionally, fine-tune GPT-2 on a domain-specific corpus to evaluate how the model's probabilities for fixed prompt-response pairs change after fine-tuning.
@@ -16,7 +16,7 @@ Additionally, fine-tune GPT-2 on a domain-specific corpus to evaluate how the mo
 ## Structure:
 - `model.py` - Modified `generate()` to support sequence probability computation and optional fixed responses.
 - `sample.py` - Added top-10 token probability visualisations, with the actually sampled token highlighted.
-- `eval.py` - Evaluation harness for prompt-response pairs.
+- `eval.py` - Iterates through `eval_data.json` and computes the probability assigned to each fixed response using `generate(fixed_response=...)`
 - `eval_data.json` - Sample prompt-response pairs for evaluation.
 
 ## Methods:
