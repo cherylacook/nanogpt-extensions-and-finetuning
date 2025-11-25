@@ -1,1 +1,1 @@
-# nanogpt-extensions-and-finetuning
+# NanoGPT Extensions and Fine-tuning
