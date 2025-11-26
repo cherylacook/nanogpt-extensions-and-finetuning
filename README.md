@@ -52,8 +52,8 @@ pip install -r requirements.txt
 python sample.py --init_from=gpt2 --start "Once upon a time" --num_samples 1 --max_new_tokens 10 --show_probs True
 # Evaluate fixed responses on base GPT-2, change device if cuda not available
 python eval.py --init_from=gpt2 --device=cuda
-# Evaluate fixed responses on the fine-tuned model
-python eval.py --init_from=resume # uses ckpt.pt
+# Evaluate fixed responses on the fine-tuned model, change device as needed
+python eval.py --init_from=resume --device=cuda # uses ckpt.pt
 ```
 
 ## Summary:
