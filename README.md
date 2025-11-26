@@ -54,6 +54,8 @@ Requirements: Python 3.10+, PyTorch, NumPy, Matplotlib
 pip install -r requirements.txt
 # Sample generation with probability visualisation
 python sample.py --init_from=gpt2 --start "Once upon a time" --num_samples 1 --max_new_tokens 10 --show_probs True
+# To train GPT-2 on the provided train.bin and val.bin (CPU or GPU)
+python train.py --device=cuda
 # Evaluate fixed responses on base GPT-2 (CPU or GPU)
 python eval.py --init_from=gpt2 --device=cuda
 # Evaluate fixed responses on fine-tuned GPT-2 (requires `ckpt.pt` in `out/`)
