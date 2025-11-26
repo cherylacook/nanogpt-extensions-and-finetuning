@@ -11,10 +11,10 @@ Additionally, fine-tune GPT-2 on a domain-specific corpus to examine how compute
 ## Data
 - `eval_data.json` - 10 curated prompt-response pairs for probability evaluation.
 - Children Stories Text Corpus - Domain-specific dataset used for fine-tuning GPT-2
-  - childrens_stories.txt - Raw text.
+  - childrens_stories.txt - raw text corpus
   - `prepare_bin.py` - converts the corpus into `train.bin` and `val.bin` for training in `train.py`.
   - `train.bin` and `val.bin` - preprocessed binaries included for convenience and reproducibility.
-  - `ckpt.pt` - Fine-tuned model checkpoint, not included due to repository size constraints. Download here: 
+  - `ckpt.pt` - Fine-tuned model checkpoint, not included due to repository size constraints. Download here: https://huggingface.co/datasets/cherac/finetuned_gpt2/resolve/main/ckpt.pt 
  
 ## Structure
 - `model.py` - Modified `generate()` to compute sequence probabilities and support fixed responses.
@@ -53,8 +53,8 @@ pip install -r requirements.txt
 python sample.py --init_from=gpt2 --start "Once upon a time" --num_samples 1 --max_new_tokens 10 --show_probs True
 # Evaluate fixed responses on base GPT-2, change device if cuda not available
 python eval.py --init_from=gpt2 --device=cuda
-# Evaluate fixed responses on the fine-tuned model, change device as needed
-python eval.py --init_from=resume --device=cuda # uses ckpt.pt
+# Evaluate fixed responses on fine-tuned GPT-2, requires `ckpt.pt` in `out/`
+python eval.py --init_from=resume --device=cuda 
 ```
 
 ## Summary:
@@ -64,5 +64,5 @@ This project demonstrates
 - Clear evidence that fine‑tuning encourages the model to assign higher probability to corpus‑consistent narrative continuations.
 
 ## Reproducibility / Notes
-- Reproducibility requires utilising full, original NanoGPT structure, available here https://github.com/karpathy/nanoGPT/tree/master
-- 
+- This project extends [NanoGPT](https://github.com/karpathy/nanoGPT). Clone NanoGPT first to ensure full compatibility, then copy over the modified scripts and data.
+
