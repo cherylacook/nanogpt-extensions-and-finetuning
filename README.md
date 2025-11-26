@@ -11,9 +11,10 @@ Additionally, fine-tune GPT-2 on a domain-specific corpus to examine how compute
 ## Data
 - `eval_data.json` - 10 curated prompt-response pairs for probability evaluation.
 - Children Stories Text Corpus - Domain-specific dataset used for fine-tuning GPT-2
-  - Raw text (childrens_stories.txt) not included, as it is too large for the repository; download here: _
-  - `prepare_bin.py` - converts the corpus into `train.bin` and `val.bin` for training in `train.py`
+  - childrens_stories.txt - Raw text.
+  - `prepare_bin.py` - converts the corpus into `train.bin` and `val.bin` for training in `train.py`.
   - `train.bin` and `val.bin` - preprocessed binaries included for convenience and reproducibility.
+  - `ckpt.pt` - Fine-tuned model checkpoint, not included due to repository size constraints. Download here: 
  
 ## Structure
 - `model.py` - Modified `generate()` to compute sequence probabilities and support fixed responses.
@@ -63,6 +64,5 @@ This project demonstrates
 - Clear evidence that fine‑tuning encourages the model to assign higher probability to corpus‑consistent narrative continuations.
 
 ## Reproducibility / Notes
-- `train.bin` and `val.bin` are included so no corpus preprocessing is needed.
-- The fine‑tuned checkpoint (ckpt.pt) is not included due to size limits, but the training configuration is fully reproducible using `train.py`.
-- Code modifications are minimal and documented inline for clarity. Original NanoGPT available: https://github.com/karpathy/nanoGPT/tree/master
+- Reproducibility requires utilising full, original NanoGPT structure, available here https://github.com/karpathy/nanoGPT/tree/master
+- 
