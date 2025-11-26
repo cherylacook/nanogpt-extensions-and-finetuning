@@ -65,4 +65,4 @@ This project demonstrates
 ## Reproducibility / Notes
 - `train.bin` and `val.bin` are included so no corpus preprocessing is needed.
 - The fine‑tuned checkpoint (ckpt.pt) is not included due to size limits, but the training configuration is fully reproducible using `train.py`.
-- Code modifications are minimal and documented inline for clarity.
+- Code modifications are minimal and documented inline for clarity. Original NanoGPT available: https://github.com/karpathy/nanoGPT/tree/master
