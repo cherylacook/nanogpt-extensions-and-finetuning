@@ -52,6 +52,7 @@ Requirements: Python 3.10+
 ```bash
 # Clone the GitHub repo for nanoGPT
 git clone https://github.com/karpathy/nanoGPT.git
+cd nanoGPT 
 # Install dependencies
 pip install -r requirements.txt
 # Sample generation with probability visualisation
