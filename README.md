@@ -11,7 +11,7 @@ Additionally, fine-tune GPT-2 on a domain-specific corpus to examine how compute
 ## Data
 - `eval_data.json` - 10 curated prompt-response pairs for probability evaluation.
 - Children Stories Text Corpus - Domain-specific dataset used for fine-tuning GPT-2
-  - childrens_stories.txt - Raw text corpus.
+  - `childrens_stories.txt` - Raw text corpus.
   - `prepare_bin.py` - Converts the corpus into `train.bin` and `val.bin` for training in `train.py`.
   - `train.bin` and `val.bin` - Preprocessed binaries included for convenience and reproducibility.
   - `ckpt.pt` - Fine-tuned model checkpoint; not included due to repository size constraints.
