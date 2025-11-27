@@ -9,7 +9,7 @@ Extend the NanoGPT codebase to support:
 Additionally, fine-tune GPT-2 on a domain-specific corpus to examine how computed probabilities for fixed prompt-response pairs change after fine-tuning.
 
 ## Data
-- `childrens_stories/` - Folder containing the domain-specific dataset used for fine-tuning GPT-2:
+- `childrens_stories/` - Folder containing the domain-specific dataset used for fine-tuning GPT-2. This folder should be placed under `nanoGPT/data/` when reproducing fine-tuning.
   - `childrens_stories.txt` - Raw text corpus.
   - `prepare_bin.py` - Converts the corpus into `train.bin` and `val.bin` for `train.py`.
   - `train.bin` and `val.bin` - Preprocessed binaries included for convenience and reproducibility.
@@ -74,8 +74,8 @@ python eval.py --init_from=gpt2 --device=cpu
 python eval.py --init_from=resume --device=cpu
 ```
 **Notes:**
-- Place `childrens_stories/` in `nanoGPT/data/` if reproducing fine-tuning with `train.py`.
-- Place `ckpt.pt` in `nanoGPT/out/` if using `--init_from=resume`.
+- Ensure `childrens_stories/` is placed under `nanoGPT/data/` if reproducing fine-tuning with `train.py`.
+- Ensure `ckpt.pt` is placed under `nanoGPT/out/` if using `--init_from=resume`. It is not required for training from scratch.
 
 ## Summary:
 This project demonstrates
