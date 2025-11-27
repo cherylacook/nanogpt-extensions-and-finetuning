@@ -16,7 +16,7 @@ Additionally, fine-tune GPT-2 on a domain-specific corpus to examine how compute
 - `eval_data.json` - 10 curated prompt-response pairs for probability evaluation.
 - `ckpt.pt` - Fine-tuned model checkpoint; not included due to repository size limits
      - Download here: https://huggingface.co/datasets/cherac/finetuned_gpt2/resolve/main/ckpt.pt
-     - Once downloaded, place in `nanoGPT/out/` to utilise fine-tuned model without the need to re-train.
+     - Place in `nanoGPT/out/` *only* if you want to evaluate or resume from the fine-tuned model. Training from scratch with `train.py` does not require `ckpt.pt`.
  
 ## Structure
 **Data**
@@ -33,6 +33,9 @@ Additionally, fine-tune GPT-2 on a domain-specific corpus to examine how compute
 
 **Results**
 - `results/` - Contains token probability plots and full fine-tuning comparison table.
+
+**Experiments**
+- `experiments/` - Contains PDF reports for additional analyses (temperatures and sequence length effects).
 
 **Environment**
 - `requirements.txt` - Python dependencies.
@@ -55,6 +58,12 @@ Probability changes after fine-tuning (snippet):
 
 The full comparison table is available in `results/`.
 Fine-tuning consistently increased probabilities for domain-appropriate narrative continuations, indicating alignment with the training corpus.
+
+**Additional Experiments (Summary):**
+- *Effect of temperature*: Lower temperatures (0.5) produce sharp distributions, resulting in mostly top-probability token selection. Moderate temperatures (0.8) increasae diversity while still favouring likely tokens. High temperatures (1.5) flatten distributions, increasing randomness but reducing grammatical consistency.
+- *Effect of sequence length*: Shorter sequences yield higher overall sequence probabilities since there are fewer negative log probabilities being summed, while longer sequences have lower overall probability.
+
+Full experiment reports, including bar charts for token probabilitiews, are available in the `experiments/` folder.
 
 ## How to Run:
 Requirements: Python 3.10+
@@ -82,6 +91,7 @@ This project demonstrates
 - Practical extensions to GPT-2 for token-level and sequence-level probability inspection.
 - Fine‑tuning on a domain‑specific corpus and evaluation of resulting probability shifts.
 - Clear evidence that fine‑tuning encourages the model to assign higher probability to corpus‑consistent narrative continuations.
+- How temperature and sequence length affect sampling behaviour and sequence probability.
 
 ## Reproducibility / Notes
 - `train.bin` and `val.bin` are included; no preprocessing is required to run `train.py`.
