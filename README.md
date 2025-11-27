@@ -73,6 +73,6 @@ This project demonstrates
 
 ## Reproducibility / Notes
 - `train.bin` and `val.bin` are included; no preprocessing is required to run train.py.
-- Fine-tuned checkpoint (ckpt.pt) is external due to size constraints, but training can be fully reproduced with train.py.
+- Fine-tuned checkpoint (ckpt.pt) is external due to size constraints, but training can be fully reproduced with `train.py`.
 - Code modifications are minimal and documented inline for clarity.
 - This repo **depends on the NanoGPT repository structure**, so ensure NanoGPT is cloned before running.
