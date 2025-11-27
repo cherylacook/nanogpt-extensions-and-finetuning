@@ -48,7 +48,7 @@ The full comparison table is available in `results/`.
 Fine-tuning consistently increased probabilities for domain-appropriate narrative continuations, indicating alignment with the training corpus.
 
 ## How to Run:
-Requirements: Python 3.10+, PyTorch, NumPy, Matplotlib
+Requirements: Python 3.10+
 ```bash
 # Clone the GitHub repo for nanoGPT
 git clone https://github.com/karpathy/nanoGPT.git
