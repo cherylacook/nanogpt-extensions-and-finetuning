@@ -18,15 +18,21 @@ Additionally, fine-tune GPT-2 on a domain-specific corpus to examine how compute
      - Download here: https://huggingface.co/datasets/cherac/finetuned_gpt2/resolve/main/ckpt.pt 
  
 ## Structure
+**Data**
+- `childrens_stories.txt` - Raw text corpus.
+- `train.bin` and `val.bin` - Preprocessed training and validation sets.
+- `eval_data.json` - Curated evaluation prompt-response pairs.
+**Preprocessing**
+- `prepare_bin.py` - Preprocesses the raw corpus into binary training files.
+**Model & Training**
 - `model.py` - Modified `generate()` to compute sequence probabilities and support fixed responses.
+- `train.py` - Modified hyperparameters for fine-tuning on a small dataset.
+**Sampling & Evaluation**
 - `sample.py` - Added token probability visualisations and ability to supply a fixed response.
 - `eval.py` - Evaluates GPT-2 on the fixed prompt-response pairs and prints computed sequence probabilities.
-- `childrens_stories.txt` - Raw text corpus.
-- `prepare_bin.py` - Preprocesses the raw corpus into binary training files.
-- `train.bin` and `val.bin` - Preprocessed training and validation sets.
-- `train.py` - Modified hyperparameters for fine-tuning on a small dataset.
-- `eval_data.json` - Curated evaluation prompt-response pairs.
+**Results**
 - `results/` - Folder containing token probability plots and full fine-tuning comparison table.
+**Environment**
 - `requirements.txt` - Python dependencies.
 **Note**: This project extends [NanoGPT](https://github.com/karpathy/nanoGPT). Clone NanoGPT first to ensure full compatibility, then copy over the modified scripts and data files.
 
