@@ -66,8 +66,8 @@ Fine-tuning consistently increased probabilities for domain-appropriate narrativ
   - Temp 1.5 → high diversity, less grammatical consistency.
 
 - *Effect of sequence length*:
- - Shorter sequences → higher overall sequence probability
- - Longer sequences → lower overall sequence probability 
+  - Shorter sequences → higher overall sequence probability
+  - Longer sequences → lower overall sequence probability 
 
 Full experiment reports, including bar charts for token probabilities, are available in the `experiments/` folder.
 
