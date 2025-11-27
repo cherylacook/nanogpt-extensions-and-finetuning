@@ -9,38 +9,35 @@ Extend the NanoGPT codebase to support:
 Additionally, fine-tune GPT-2 on a domain-specific corpus to examine how computed probabilities for fixed prompt-response pairs change after fine-tuning.
 
 ## Data
-- `eval_data.json` - 10 curated prompt-response pairs for probability evaluation.
-- Children Stories Text Corpus - Domain-specific dataset used for fine-tuning GPT-2
+- `childrens_stories/` - Folder containing the domain-specific dataset used for fine-tuning GPT-2:
   - `childrens_stories.txt` - Raw text corpus.
-  - `prepare_bin.py` - Converts the corpus into `train.bin` and `val.bin` for training in `train.py`.
+  - `prepare_bin.py` - Converts the corpus into `train.bin` and `val.bin` for `train.py`.
   - `train.bin` and `val.bin` - Preprocessed binaries included for convenience and reproducibility.
-  - `ckpt.pt` - Fine-tuned model checkpoint; not included due to repository size constraints.
-     - Download here: https://huggingface.co/datasets/cherac/finetuned_gpt2/resolve/main/ckpt.pt 
+- `eval_data.json` - 10 curated prompt-response pairs for probability evaluation.
+- `ckpt.pt` - Fine-tuned model checkpoint; not included due to repository size limits
+     - Download here: https://huggingface.co/datasets/cherac/finetuned_gpt2/resolve/main/ckpt.pt
+     - Once downloaded, place in `nanoGPT/out/` to utilise fine-tuned model without the need to re-train.
  
 ## Structure
 **Data**
-- `childrens_stories.txt` - Raw text corpus.
-- `train.bin` and `val.bin` - Preprocessed training and validation sets.
+- `childrens_stories/` - Raw and preprocessed files for fine-tuning.
 - `eval_data.json` - Curated evaluation prompt-response pairs.
 
-**Preprocessing**
-- `prepare_bin.py` - Preprocesses the raw corpus into binary training files.
-
 **Model & Training**
-- `model.py` - Modified `generate()` to compute sequence probabilities and support fixed responses.
-- `train.py` - Modified hyperparameters for fine-tuning on a small dataset.
+- `model.py` - Modified `generate()` computes sequence probabilities and supports fixed responses.
+- `train.py` - Fine-tuning script; automatically reads data from `childrens_stories/`.
 
 **Sampling & Evaluation**
-- `sample.py` - Added token probability visualisations and ability to supply a fixed response.
-- `eval.py` - Evaluates GPT-2 on the fixed prompt-response pairs and prints computed sequence probabilities.
+- `sample.py` - Visualises token probabilities and supports fixed responses.
+- `eval.py` - Evaluates GPT-2 on the fixed prompt-response pairs, printing computed sequence probabilities.
 
 **Results**
-- `results/` - Folder containing token probability plots and full fine-tuning comparison table.
+- `results/` - Contains token probability plots and full fine-tuning comparison table.
 
 **Environment**
 - `requirements.txt` - Python dependencies.
 
-**Note**: This project extends [NanoGPT](https://github.com/karpathy/nanoGPT). Clone NanoGPT first to ensure full compatibility, then copy over the modified scripts and data files.
+**Note**: This project extends [NanoGPT](https://github.com/karpathy/nanoGPT). Clone NanoGPT first to ensure full compatibility, then copy over the modified scripts. Place `childrens_stories/` in `nanoGPT/data/`.
 
 ## Methods
 1. *Token Probability Analysis* - Visualises the top-10 token probabilities at each generation step (`--show_probs=True`), with the selected token highlighted.
@@ -69,15 +66,16 @@ cd nanoGPT
 pip install -r requirements.txt
 # Sample generation with probability visualisation
 python sample.py --init_from=gpt2 --start "Once upon a time" --num_samples 1 --max_new_tokens 10 --show_probs True
-# To train GPT-2 on the provided train.bin and val.bin (--device=[cpu or gpu or mps])
+# Train GPT-2 on the Childrens Stories corpus (folder is auto-detected) (--device=[cpu or gpu or mps])
 python train.py --device=cpu
-# Evaluate fixed responses on base GPT-2 
+# Evaluate fixed responses on base GPT-2
 python eval.py --init_from=gpt2 --device=cpu
 # Evaluate fixed responses on fine-tuned GPT-2 (requires `ckpt.pt` in `out/`)
 python eval.py --init_from=resume --device=cpu
 ```
 **Notes:**
-- Ensure `ckpt.pt` is placed in `out/` if using `--init_from=resume`.
+- Place `childrens_stories/` in `nanoGPT/data/` if reproducing fine-tuning with `train.py`.
+- Place `ckpt.pt` in `nanoGPT/out/` if using `--init_from=resume`.
 
 ## Summary:
 This project demonstrates
@@ -86,7 +84,7 @@ This project demonstrates
 - Clear evidence that fine‑tuning encourages the model to assign higher probability to corpus‑consistent narrative continuations.
 
 ## Reproducibility / Notes
-- `train.bin` and `val.bin` are included; no preprocessing is required to run train.py.
-- Fine-tuned checkpoint (ckpt.pt) is external due to size constraints, but training can be fully reproduced with `train.py`.
+- `train.bin` and `val.bin` are included; no preprocessing is required to run `train.py`.
+- The fine-tuned checkpoint (ckpt.pt) is external due to size constraints, but training can be fully reproduced with `train.py`.
 - Code modifications are minimal and documented inline for clarity.
 - This repo **depends on the NanoGPT repository structure**, so ensure NanoGPT is cloned before running.
