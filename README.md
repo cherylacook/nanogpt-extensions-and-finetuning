@@ -81,7 +81,7 @@ cd nanoGPT
 pip install -r requirements.txt
 # Sample generation with probability visualisation
 python sample.py --init_from=gpt2 --start "Once upon a time" --num_samples 1 --max_new_tokens 10 --show_probs True
-# Train GPT-2 on the Childrens Stories corpus (folder is auto-detected) (--device=[cpu or gpu or mps])
+# Train GPT-2 on the Children's Stories corpus (folder is auto-detected) (--device=[cpu or gpu or mps])
 python train.py --device=cpu
 # Evaluate fixed responses on base GPT-2
 python eval.py --init_from=gpt2 --device=cpu
