@@ -50,6 +50,8 @@ Fine-tuning consistently increased probabilities for domain-appropriate narrativ
 ## How to Run:
 Requirements: Python 3.10+, PyTorch, NumPy, Matplotlib
 ```bash
+# Clone the GitHub repo for nanoGPT
+git clone https://github.com/karpathy/nanoGPT.git
 # Install dependencies
 pip install -r requirements.txt
 # Sample generation with probability visualisation
