@@ -303,19 +303,21 @@ class GPT(nn.Module):
         return mfu
 
     @torch.no_grad()
+    # This is the only part of model.py that I have modified
     def generate(self, idx, max_new_tokens, temperature=1.0, top_k=None, fixed_response=None):
         """
         Take a conditioning sequence of indices idx (LongTensor of shape (b,t)) and complete
         the sequence max_new_tokens times, feeding the predictions back into the model each time.
         Most likely you'll want to make sure to be in model.eval() mode of operation for this.
         """
-        # For Task 1.1
+        # Added for token probability analysis
         token_probs = [] # stores all the token probabilities
         selected_tokens = [] # stores the IDs of tokens selected at each step
 
-        # For Task 1.2
+        # Added for sequence probability computation
         selected_log_probs = [] # stores the log probabilities of all selected tokens
-        
+
+        # The generation loop will repeat until it has created the specified number of desired new tokens
         total_steps = max_new_tokens 
         if fixed_response is not None:
             total_steps = len(fixed_response)
@@ -327,7 +329,7 @@ class GPT(nn.Module):
             logits, _ = self(idx_cond)
             # pluck the logits at the final step and scale by desired temperature
             logits = logits[:, -1, :] / temperature
-            # For Task 1.3, to ensure the fixed token's probability is available
+            # Added to ensure the fixed token's probability is available
             all_probs = F.softmax(logits, dim=-1)
             # optionally crop the logits to only the top k options
             if top_k is not None:
@@ -336,35 +338,35 @@ class GPT(nn.Module):
             # apply softmax to convert logits to (normalized) probabilities
             probs = F.softmax(logits, dim=-1)
 
-            # For Task 1.3: fixed response vs normal sampling
+            # Added to enable fixed response vs normal sampling
             if fixed_response is not None:
                 token_id = fixed_response[step]
                 idx_next = torch.tensor([[token_id]], dtype=torch.long, device=idx.device)
 
-                # For Task 1.2: get the fixed token's probability 
+                # Calculating the fixed token's probability using all_probs, which contains probabilites for all tokens
                 token_log_prob = torch.log(all_probs[0, token_id]).item()
-            else: 
+            else: # The sampling technique provided originally 
                 # sample from the distribution
                 idx_next = torch.multinomial(probs, num_samples=1)
                 token_id = idx_next.item()
 
-                # For Task 1.2: get the sampled token's probability
+                # Added by me: getting the sampled token's probability from probs (if top-k is defined, then it contains just top-k token probs)
                 token_log_prob = torch.log(probs[0, token_id]).item()
 
-            # For Task 1.1: Storing generated token probabilities and actual selected tokens
-            token_probs.append(probs[0]) # stores all the token probabilities from this step
-            selected_tokens.append(token_id) # stores the actual selected token from this step
+            # Added for token probability analysis: Storing generated token probabilities and actual selected tokens
+            token_probs.append(probs[0]) # Stores all the token probabilities from this step
+            selected_tokens.append(token_id) # Stores the actual selected token from this step
 
-            # For Task 1.2
+            # Added for sequence probability computation: Storing the selected token's probability 
             selected_log_probs.append(token_log_prob) 
 
             # append sampled index to the running sequence and continue
             idx = torch.cat((idx, idx_next), dim=1)
 
-        # Task 1.2
-        # sum the log probabilities 
+        # Added for sequence probability computation:
+        # Summing all the individual token log probabilities 
         total_log_likelihood = sum(selected_log_probs)
-        # convert the log probability back to a probability
+        # Converting the log probability back to a probability
         complete_seq_prob = math.exp(total_log_likelihood)
 
-        return idx, token_probs, selected_tokens, complete_seq_prob
+        return idx, token_probs, selected_tokens, complete_seq_prob 

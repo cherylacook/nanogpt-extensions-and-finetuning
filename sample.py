@@ -8,11 +8,9 @@ import torch
 import tiktoken
 from model import GPTConfig, GPT
 
-import matplotlib.pyplot as plt # For Task 1.1 bar charts
-
 # -----------------------------------------------------------------------------
-show_probs = False # for Task 1.1
-fixed_response = "" # for Task 1.3
+show_probs = False # when set to True, the top-10 token probability plots for each word are generated
+fixed_response = "" # optional fixed response flag
 init_from = 'resume' # either 'resume' (from an out_dir) or a gpt2 variant (e.g. 'gpt2-xl')
 out_dir = 'out' # ignored if init_from is not 'resume'
 start = "\n" # or "<|endoftext|>" or etc. Can also specify a file, use as: "FILE:prompt.txt"
@@ -77,7 +75,7 @@ else:
     encode = lambda s: enc.encode(s, allowed_special={"<|endoftext|>"})
     decode = lambda l: enc.decode(l)
 
-# Task 1.3
+# Added for the optional fixed response mode: if a fixed response is provided, it will be encoded into tokens
 if fixed_response != "":
     fr_tokens = encode(fixed_response) # converts the provided string into integer tokens
 else:
@@ -98,19 +96,29 @@ with torch.no_grad():
             print(decode(y[0].tolist()))
             print('---------------')
 
-            # Task 1.1
+            # Added for token probability analysis: if show_probs=True, it generates plots showing the top-10 token probabilities from each step 
             if show_probs == True:
+                """
+                zip(token_probs, selected_tokens) produces an iterator (probs, id) by pairing each probability distribution 
+                with the corresponding token ID that was selected.
+                enumerate() then takes this iterable and adds a counter, therefore returning an iterator with (step, (probs, id)). 
+                """
                 for step_num, (step_probs, selected_id) in enumerate(zip(token_probs, selected_tokens)):
+                    # torch.topk() returns the ten highest probabilities and their corresponding token IDs
                     top_10_probs, top_10_ids = torch.topk(step_probs, 10)
+                    # The actual token strings are obtained from their ID using decode()
                     top_10_tokens = [decode([i.item()]) for i in top_10_ids]
+                    # To distinguish the token selected at that step from the rest, its bar is coloured green.
                     bar_colours = ['green' if i==selected_id else 'blue' for i in top_10_ids]
                     plt.figure(figsize=(10,6))
+                    # The bar chart is made with the token strings as the x-axis and their corresponding probabilities as the y-axis
                     plt.bar(top_10_tokens, top_10_probs.cpu().numpy(), color=bar_colours)
+                    # A bar chart is made for each step of each sample, and saved as a png
                     plt.title(f"Step {step_num+1}: Top 10 token probabilities")
                     plt.savefig(f"sample{k+1}_step_{step_num+1}.png")
                     plt.close()
 
-            # Task 1.2
+            # For sequence probability computation: printing the calculated probability for the full generated sequence
             print("Probability of generated response:", complete_seq_prob)
             
 

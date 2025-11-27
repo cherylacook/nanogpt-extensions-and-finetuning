@@ -33,38 +33,42 @@ from model import GPTConfig, GPT
 # default config values designed to train a gpt2 (124M) on OpenWebText
 # I/O
 out_dir = 'out'
-eval_interval = 100 #2000
-log_interval = 10 #1
-eval_iters = 10 #2000
+eval_interval = 100 # Modified from 2000 → 100 to provide more frequent training feedback
+log_interval = 10 # Modified from 1 → 10 to reduce console spam
+eval_iters = 10 # Modified from 2000 → 10 to provide more frequent training feedback
 eval_only = False # if True, script exits right after the first eval
 always_save_checkpoint = True # if True, always save a checkpoint after each eval
-init_from = 'gpt2' #'scratch' # 'scratch' or 'resume' or 'gpt2*'
+init_from = 'gpt2' # Modified from 'scratch' → 'gpt2' to start from pretrained GPT-2 instead of training from random init
+# ^ options are 'scratch' or 'resume' or 'gpt2*' 
 # wandb logging
 wandb_log = False # disabled by default
 wandb_project = 'owt'
 wandb_run_name = 'gpt2' # 'run' + str(time.time())
 # data
-dataset = 'childrens_stories'
-gradient_accumulation_steps = 4 # used to simulate larger batch sizes
-batch_size = 4 #12 # if gradient_accumulation_steps > 1, this is the micro-batch size
-block_size = 512 #1024
+dataset = 'childrens_stories' # Modified from 'openwebtext' → domain-specific fairytale corpus
+gradient_accumulation_steps = 4 # Modified from 5*8 (=40) → 4 to reduce the effective batch size and fit GPU memory
+# ^ In NanoGPT, 5*8 was used because micro-batch size (12) × 40 accumulation steps = large effective batch size.
+batch_size = 4 # Modified from 12 → 4 to reduce memory usage on my hardware
+# ^ if gradient_accumulation_steps > 1, this is the micro-batch size
+block_size = 512 # Modified from 1024 → 512 to reduce memory usage and speed up training
 # model
 n_layer = 12
 n_head = 12
 n_embd = 768
-dropout = 0.1 #0.0 # for pretraining 0 is good, for finetuning try 0.1+
+dropout = 0.1 # Modified from 0.0 → 0.1 to add regularisation, which prevents overfitting during fine-tuning 
+# ^ for pretraining 0 is good, for finetuning try 0.1+
 bias = False # do we use bias inside LayerNorm and Linear layers?
 # adamw optimizer
-learning_rate = 1e-4 #6e-4 # max learning rate
-max_iters = 5000 #600000 total number of training iterations
+learning_rate = 1e-4 # Modified from 6e-4 → 1e-4 to stabilise training # max learning rate
+max_iters = 5000 # Modified from 600k → 5k to match the much smaller dataset and shorten training time # total number of training iterations
 weight_decay = 1e-1
 beta1 = 0.9
 beta2 = 0.95
 grad_clip = 1.0 # clip gradients at this value, or disable if == 0.0
 # learning rate decay settings
 decay_lr = True # whether to decay the learning rate
-warmup_iters = 100 #2000 # how many steps to warm up for
-lr_decay_iters = max_iters#600000 # should be ~= max_iters per Chinchilla
+warmup_iters = 100 # Modified from 2,000 → 100 because of tuning to a small dataset # how many steps to warm up for
+lr_decay_iters = max_iters # Modified from 600,000 to be automatically matched to max_iters # should be ~= max_iters per Chinchilla
 min_lr = 6e-5 # minimum learning rate, should be ~= learning_rate/10 per Chinchilla
 # DDP settings
 backend = 'nccl' # 'nccl', 'gloo', etc.

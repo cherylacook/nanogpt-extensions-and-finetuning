@@ -10,8 +10,8 @@ import json
 
 # Copied from sample.py
 # -----------------------------------------------------------------------------
-show_probs = False # for Task 1.1
-fixed_response = "" # for Task 1.3
+# show_probs flag not needed because there is no code to generate plots 
+# fixed_response flag not needed because fixed_response will be set to the response_tokens generated from the JSON file
 init_from = 'resume' # either 'resume' (from an out_dir) or a gpt2 variant (e.g. 'gpt2-xl')
 out_dir = 'out' # ignored if init_from is not 'resume'
 start = "\n" # or "<|endoftext|>" or etc. Can also specify a file, use as: "FILE:prompt.txt"
@@ -66,19 +66,17 @@ enc = tiktoken.get_encoding("gpt2")
 encode = lambda s: enc.encode(s, allowed_special={"<|endoftext|>"})
 decode = lambda l: enc.decode(l)
 
+# Loads the prompt-response pairs and loops through them, calling model.generate() to generate the fixed response and calculate its probability
 def eval(eval_file="eval_data.json"):
     with open(eval_file, "r", encoding="utf-8") as f:
         eval_pairs = json.load(f)
-        #print(type(eval_pairs))
-        #print(type(eval_pairs[0]))
 
-    for pr_pair in eval_pairs:
+    for pr_pair in eval_pairs: # Looping through each prompt-response pair
         prompt = pr_pair["prompt"]
         response = pr_pair["response"]
 
         # Encoding the prompt and response into tokens
         prompt_tokens = encode(prompt)
-        #print(type(prompt_tokens))
         response_tokens = encode(response)
         
         # Converting the prompt tokens to a tensor (proper input format for model.generate())
@@ -87,8 +85,7 @@ def eval(eval_file="eval_data.json"):
         # Generating with response tokens set as fixed_response
         y, probs_list, chosen_tokens, response_prob = model.generate(x, max_new_tokens=len(response_tokens), temperature=temperature, top_k=top_k, fixed_response=response_tokens)       
         print("Prompt:", prompt)
-        print("Response:", response)
-        #print("Generated sequence:", decode(y[0].tolist()))
+        print("Response:", response)\
         print("Probability of fixed response:", response_prob)
 
 # run generation
