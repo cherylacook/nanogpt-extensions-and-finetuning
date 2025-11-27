@@ -1,5 +1,7 @@
 # NanoGPT Extensions and Fine-tuning
 
+**Note**: This project was completed as part of the AIML332 course at Te Herenga Waka — Victoria University of Wellington.
+
 ## Objective
 Extend the NanoGPT codebase to support:
 - Visualisation of token probabilities and sampling decisions during text generation.
