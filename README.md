@@ -60,8 +60,14 @@ The full comparison table is available in `results/`.
 Fine-tuning consistently increased probabilities for domain-appropriate narrative continuations, indicating alignment with the training corpus.
 
 **Additional Experiments (Summary):**
-- *Effect of temperature*: Lower temperatures *(0.5)* produce sharp distributions, resulting in mostly top-probability token selection. Moderate temperatures *(0.8)* increase diversity while still favouring likely tokens. High temperatures *(1.5)* flatten distributions, increasing randomness but reducing grammatical consistency.
-- *Effect of sequence length*: Shorter sequences yield higher overall sequence probabilities since there are fewer negative log probabilities being summed, while longer sequences have lower overall probability.
+- *Effect of temperature*:
+  - Temp 0.5 → very deterministic, mostly top tokens.
+  - Temp 0.8 → more diversity while favoring likely tokens.
+  - Temp 1.5 → high diversity, less grammatical consistency.
+
+- *Effect of sequence length*:
+ - Shorter sequences → higher overall sequence probability
+ - Longer sequences → lower overall sequence probability 
 
 Full experiment reports, including bar charts for token probabilities, are available in the `experiments/` folder.
 
