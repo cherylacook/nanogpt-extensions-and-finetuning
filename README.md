@@ -1,6 +1,6 @@
 # NanoGPT Extensions and Fine-tuning
 
-**Note**: This project was completed as part of the AIML332 course at Te Herenga Waka — Victoria University of Wellington.
+This project was *completed as part of AIML332* at Te Herenga Waka — Victoria University of Wellington.
 
 ## Objective
 Extend the NanoGPT codebase to support:
